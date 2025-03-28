@@ -11,7 +11,7 @@ playwrightTest.expect();
 
 */
 //why we have given browser inside curly braces -> because it's not just a variable . here browser is from @playwright/test 
-test.only('Browser context playwright test',async ({browser})=>
+test('Browser context playwright test',async ({browser})=>
     {
 //open a new browser instance with new context , which will not have  cookies and other things
 const newBrowser = (await browser.newContext())
@@ -27,7 +27,7 @@ const productTitleList = page.locator(".card-body a")
 
 //ASSERTION 1 : error message while enetring incorrect credentials
 await userName.fill("priyanka")
-await pwd.fill("*******")
+await pwd.fill("testing")
 await loginBtn.click()
 //because of our timeout condition in config file,  folloing line it will wait for 3 seconds, explicitly wait is not required
 console.log(await page.locator("[style*='block']").textContent())
@@ -37,7 +37,7 @@ await expect(page.locator("[style*='block']")).toContainText('Incorrect')
 await userName.fill("")
 await userName.fill("rahulshettyacademy")
 await pwd.fill("")
-await pwd.fill("********")
+await pwd.fill("learning")
 await loginBtn.click()
 
 //ASSERTION 3 : get the title of the first product
@@ -64,6 +64,46 @@ const productTitlesText = await productTitleList.allTextContents()
 console.log(productTitlesText)
 
 newBrowser.close()
+
+});
+
+test.only("UI Controls",async({page})=>{
+    await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
+    const userName = page.locator('#username');
+const pwd = page.locator("input[name='password']");
+const loginBtn = page.locator("#signInBtn");
+const dropdown = page.locator("select.form-control");
+const radioBtnUser = page.locator("input[value='user'] + span");
+const documentRequest = page.locator("a[href*='documents-request']");
+
+//select dropwodn
+await dropdown.selectOption("consult");
+
+//select radio button and assert
+await page.locator(".radiotextsty").nth(1).click();
+await page.locator("#okayBtn").click();
+await expect(page.locator(".radiotextsty").nth(1)).toBeChecked();
+console.log("Readio button selected : ",await page.locator(".radiotextsty").nth(1).isChecked());
+ 
+//checkmarm the checkbox and assert if it is checked
+await page.locator("#terms").click();
+await expect(page.locator("#terms")).toBeChecked();
+
+//uncheck the checkbox amd assert if it unchecked
+await page.locator("#terms").uncheck();
+ expect(await page.locator("#terms").isChecked()).toBeFalsy();
+
+ //assert the link is blinking - class attribute must have blinkingText
+ /**
+  * const locator = page.locator('input');
+await expect(locator).toHaveAttribute('type', 'text');
+  */
+ await expect(documentRequest).toHaveAttribute('class','blinkingText');
+
+ /**
+  * Click on the blinking link and verify the text on the new opened page
+  * Here a new page is opening it means w ehav eto cretae new page to work upon this newly opened page after clicnking on the link.
+  */
 
 });
 
