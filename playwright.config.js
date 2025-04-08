@@ -26,7 +26,10 @@ import { defineConfig, devices, expect } from '@playwright/test';
       browserName:'chromium',
      //browserName:'firefox'
     // browserName:'webkit', //safari
-     headless:false
+      headless:false,
+      screenshot:'on',
+      //trace:'on' // will generate trace.zip for each test case
+      trace:'retain-on-failure' //will generate trace.zip only for failed test cases
     }
 
   
