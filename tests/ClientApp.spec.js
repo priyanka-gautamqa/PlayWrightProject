@@ -36,7 +36,7 @@ test('Browser Context-Validating Error Login',async({page}) =>{
  * Search for your order using order id
  * 
  */
-test.only('end to end flow for e commerce web site',async ({page})=>{
+test('end to end flow for e commerce web site',async ({page})=>{
 
     const productName = 'ZARA COAT 3';
     const email='priyanka.gautam1905@gmail.com';
@@ -45,7 +45,8 @@ test.only('end to end flow for e commerce web site',async ({page})=>{
     await page.locator("#userEmail").fill("priyanka.gautam1905@gmail.com");
     await page.locator("#userPassword").fill("*******");
     await page.locator("#login").click();
-    await page.locator(".card-body b").first().waitFor(); 
+   //await page.locator(".card-body b").first().waitFor(); 
+    await page.locator('.card-body b').first().waitFor({ state: 'visible' });
     const productTitleList = await page.locator(".card-body b").allTextContents()
     console.log("Product title list : ",productTitleList);
     const count = await products.count();
