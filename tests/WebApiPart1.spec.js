@@ -1,4 +1,5 @@
 const {test,expect,request} = require('@playwright/test')
+const {ApiUtils} = require('./utils/ApiUtils')
 
 /**
  * DO Login using login API
@@ -15,7 +16,7 @@ const {test,expect,request} = require('@playwright/test')
  */
 const loginPayLoad = {
     userEmail: "priyanka.gautam1905@gmail.com",
-    userPassword: "*********"
+    userPassword: "$$$$$$$$$"
 }
 const createOrderPayload = 
 {
@@ -28,43 +29,14 @@ const createOrderPayload =
     ]
 }
 
-let token;
-let OrderId;
-
+let response;
 test.beforeAll(async ()=>{
 
-    //login via API
+  //initialistaion
     const apiContext = await request.newContext(); //to give some predefined information like proxies for the api
-    const loginResponse = await apiContext.post("https://rahulshettyacademy.com/api/ecom/auth/login",
-        {
-            data:loginPayLoad
-        }
-    )
+    const apiUtils= new ApiUtils(apiContext,loginPayLoad); //object created
+    response = await apiUtils.createOrder(createOrderPayload);
 
-    expect(loginResponse.ok()).toBeTruthy();
-    const loginResponseJson = await loginResponse.json(); //parse the token
-    token = await loginResponseJson.token;
-
-    console.log("loginResponseJson",loginResponseJson);
-    console.log("token",token);
-    
-    //create order API
-
-    const orderResponse = await apiContext.post("https://rahulshettyacademy.com/api/ecom/order/create-order",
-       {
-        data: createOrderPayload,
-        headers: {
-            'Authorization' : token,
-            'Content-Type' : 'application/json'
-        }
-       } 
-
-    );
-
-    const orderResponseJson = await orderResponse.json();
-    console.log("orderResponseJson",orderResponseJson)
-     OrderId = await orderResponseJson.orders[0];
-    console.log("ORDER ID : ",OrderId);
 
 
 });
@@ -73,14 +45,13 @@ test.beforeEach(()=>{
 
 });
 
-test.only('end to end flow for e commerce web site - OTHER WAY ',async ({page})=>{
-
+test.only('end to end flow for e commerce web site - API PLACING ORDER ',async ({page})=>{
     const productName = 'ZARA COAT 3';
     const products = page.locator(".card-body");
     //INJECTING THE TOKEN IN THE WEB PAGE - use javascript to insert the token in Application Local Storage and playwright can execute any javascript expression
     page.addInitScript(value=>{
         window.localStorage.setItem('token',value);
-    },token);
+    },response.token);
 
     await page.goto("https://rahulshettyacademy.com/client");
 
@@ -88,9 +59,9 @@ test.only('end to end flow for e commerce web site - OTHER WAY ',async ({page})=
    await page.getByRole("listitem").getByRole('button',{name:"ORDERS"}).click();
    await page.locator("tbody").waitFor();
 
-   await page.locator("tbody tr").filter({hasText:OrderId}).getByRole('button',{name:"View"}).click();
+   await page.locator("tbody tr").filter({hasText:response.OrderId}).getByRole('button',{name:"View"}).click();
 
  //verify order summary
-expect(await page.locator(".col-text").filter({hasText:OrderId})).toBeTruthy();
+expect(await page.locator(".col-text").filter({hasText:response.OrderId})).toBeTruthy();
 
 });
