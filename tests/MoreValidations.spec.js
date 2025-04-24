@@ -80,3 +80,30 @@ page.on('dialog', dialog => {
     console.log("MESSAGE : ",message);
 
 });
+
+test("SCREENSHOT VALIDATIONS",async({page})=>{
+  await page.goto("https://rahulshettyacademy.com/AutomationPractice/");
+  await page.locator("#hide-textbox").click(); //hide it
+  //take the screenshot
+  await page.screenshot({path:'screenshot.png'}); //will take complete page screenshot
+  await expect(page.locator("#displayed-text")).toBeHidden();
+
+  await page.locator("#show-textbox").click(); // show it
+    //take screenshot but only for the text box which is vsible after clicking on show button
+   await page.locator('#displayed-text').screenshot({path:'LocatorScreenshot.png'});
+   await expect(page.locator("#displayed-text")).toBeVisible();
+
+});
+
+/**
+ * VISUAL TESTING
+ *  compare two images
+ * for example compare login page image from day 1 execution to next execution login page image
+ * first time it will fail as it will store the image and then next time it will have some image to cmpare
+ */
+
+test.only("VISUALS TESTINGs",async({page})=>{
+  await page.goto("https://google.com/");
+  expect(await page.screenshot()).toMatchSnapshot('LandingPageFlight.png');
+ 
+});
