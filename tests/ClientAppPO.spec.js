@@ -1,6 +1,10 @@
 const {test,expect} = require('@playwright/test')
 const {PageObjectManager} = require('../pageObjects/PageObjectManager')
 
+//json to string to js object : to avoid failure during parsing due to encoding standards
+const placeOrderDataSetJsonObj = require('../utils/PlaceOrder.json') 
+const placeOrderDataSetStringFormat = JSON.stringify(placeOrderDataSetJsonObj)
+const placeOrderDataSet = JSON.parse(placeOrderDataSetStringFormat)
 
 /**
  * login
@@ -14,10 +18,6 @@ const {PageObjectManager} = require('../pageObjects/PageObjectManager')
  * 
  */
 test('end to end flow for e commerce web site',async ({page})=>{
-
-    const productName = 'ZARA COAT 3';
-    const email='priyanka.gautam1905@gmail.com';
-    const password = "$$$$$$$$$$$$$$$$$$$$$"; 
     const pageObjectManager = new PageObjectManager(page);
     const loginPage = pageObjectManager.getLoginPageObj();
     const dashboardPage = pageObjectManager.getdashboardPageObj();
@@ -28,13 +28,13 @@ test('end to end flow for e commerce web site',async ({page})=>{
     const orderSummaryPage = pageObjectManager.getorderSummaryPageObj();
 
     await loginPage.goToLoginPage();
-    await loginPage.validLogin(email,password);
-    await dashboardPage.addProductToCart(productName);
+    await loginPage.validLogin(placeOrderDataSet.email,placeOrderDataSet.password);
+    await dashboardPage.addProductToCart(placeOrderDataSet.productName);
 
 
     //click on the cart and check if your product has been added
     await dashboardPage.navigateToCartPage();
-    const isProductPresent = await mycartPage.isProductVisible(productName);
+    const isProductPresent = await mycartPage.isProductVisible(placeOrderDataSet.productName);
     expect(isProductPresent).toBeTruthy();
 
     //checkout
@@ -45,14 +45,14 @@ test('end to end flow for e commerce web site',async ({page})=>{
 
 
     //enter checkout information - checkout page
-    await checkoutPage.enterPaymentInformation("1234 5678 0000 2345","000","Priyanka Gautam","01","02");
+    await checkoutPage.enterPaymentInformation(placeOrderDataSet.creditCardNumber,placeOrderDataSet.creditCardCVV,placeOrderDataSet.creditCardUserName,placeOrderDataSet.creditCardExpiryDate,placeOrderDataSet.creditCardExpiryMonth);
 
 
     //assert shipping information - checkout page
     const emailIdGreyed = await checkoutPage.getGreyedEmailId();
-    expect(email).toBe(emailIdGreyed);
+    expect(placeOrderDataSet.email).toBe(emailIdGreyed);
     const actualUserNameEmailId = await checkoutPage.getUsernameEmailId();
-    expect(actualUserNameEmailId).toContain(email);
+    expect(actualUserNameEmailId).toContain(placeOrderDataSet.email);
     
     //Thankyou page - get order id
    checkoutPage.navigateToThankyouPage();
@@ -73,13 +73,13 @@ test('end to end flow for e commerce web site',async ({page})=>{
 
  const addressSummaryDeatils = await orderSummaryPage.getAddressSummary();
 
- expect(addressSummaryDeatils.billingEmail.includes(email)).toBeTruthy();
- expect(addressSummaryDeatils.deliveryEmail.includes(email)).toBeTruthy();
+ expect(addressSummaryDeatils.billingEmail.includes(placeOrderDataSet.email)).toBeTruthy();
+ expect(addressSummaryDeatils.deliveryEmail.includes(placeOrderDataSet.email)).toBeTruthy();
    expect(addressSummaryDeatils.billingCountry.includes("India")).toBeTruthy();
 expect(addressSummaryDeatils.deliveryCountry.includes("India")).toBeTruthy();
 
  const productNameFromSummary = await orderSummaryPage.getProductName();
-expect(productNameFromSummary.trim()).toBe(productName);
+expect(productNameFromSummary.trim()).toBe(placeOrderDataSet.productName);
 
 
 });
