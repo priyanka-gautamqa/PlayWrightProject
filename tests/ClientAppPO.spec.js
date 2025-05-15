@@ -7,6 +7,40 @@ const placeOrderDataSetStringFormat = JSON.stringify(placeOrderDataSetJsonObj)
 const placeOrderDataSet = JSON.parse(placeOrderDataSetStringFormat)
 
 /**
+ * PARAMETERIZATION :  run the test with different set of test data dynamically
+ * 1. give test data in JSON file in array format, for example
+ *        [
+            {
+              "email":"priyanka.gautam1905@gmail.com",
+              "password":"$$$$$$$$$$",
+                and so on....
+            },
+            {
+                "email":"otherTestUserData@gmail.com",
+                 "password":"$$$$$$$$$$",
+                 and so on...
+              }
+          ]
+ *          
+ *            
+ * 2. place your test in for loop , for example :
+ *      for(const data of placeOrderDataSet){
+ *          test(`end to end flow for e commerce web site for ${data.productName}`,async ({page})=>{
+ *              your test steps....
+ *              3. access your properties using data variable
+ *                  instead of using placeOrderDataSet.email 
+ *                  use data.email
+ *                  
+ *            });
+ *      }
+ * 
+ *      
+ *  4. somehow we have to make test name different for different testdata otherwise playwright will say that we have same name tests
+ *      hence we are using ${data.productName} in the test name
+ * 
+ */
+
+/**
  * login
  * select product named - Zara Coat 3
  * Assert if the required product has been selected and present in the cart
