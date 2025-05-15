@@ -1,11 +1,5 @@
 const {test,expect} = require('@playwright/test')
-const {LoginPage} = require('../pageObjects/LoginPage')
-const {DashboardPage} = require('../pageObjects/DashboardPage')
-const {MycartPage} = require('../pageObjects/MycartPage')
-const {CheckoutPage} = require('../pageObjects/CheckoutPage')
-const { ThankyouPage } = require('../pageObjects/ThankyouPage')
-const { OrderHistoryPage } = require('../pageObjects/OrderHistoryPage')
-const { OrderSummaryPage } = require('../pageObjects/OrderSummaryPage')
+const {PageObjectManager} = require('../pageObjects/PageObjectManager')
 
 
 /**
@@ -23,14 +17,15 @@ test('end to end flow for e commerce web site',async ({page})=>{
 
     const productName = 'ZARA COAT 3';
     const email='priyanka.gautam1905@gmail.com';
-    const password = "Learning123$"; 
-    const loginPage = new LoginPage(page);
-    const dashboardPage = new DashboardPage(page);
-    const mycartPage = new MycartPage(page);
-    const checkoutPage = new CheckoutPage(page);
-    const thankyouPage = new ThankyouPage(page);
-    const orderHistoryPage = new OrderHistoryPage(page);
-    const orderSummaryPage = new OrderSummaryPage(page);
+    const password = "$$$$$$$$$$$$$$$$$$$$$"; 
+    const pageObjectManager = new PageObjectManager(page);
+    const loginPage = pageObjectManager.getLoginPageObj();
+    const dashboardPage = pageObjectManager.getdashboardPageObj();
+    const mycartPage = pageObjectManager.getmyCartPageObj();
+    const checkoutPage = pageObjectManager.getcheckoutPageObj();
+    const thankyouPage = pageObjectManager.getthankyouPageObj();
+    const orderHistoryPage = pageObjectManager.getorderHistoryPageObj();
+    const orderSummaryPage = pageObjectManager.getorderSummaryPageObj();
 
     await loginPage.goToLoginPage();
     await loginPage.validLogin(email,password);
