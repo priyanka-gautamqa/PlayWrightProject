@@ -1,5 +1,6 @@
 const {test,expect} = require('@playwright/test')
 const {PageObjectManager} = require('../pageObjects/PageObjectManager')
+const {customTest} = require('../utils/test-base')
 
 //json to string to js object : to avoid failure during parsing due to encoding standards
 const placeOrderDataSetJsonObj = require('../utils/PlaceOrder.json') 
@@ -40,7 +41,10 @@ const placeOrderDataSet = JSON.parse(placeOrderDataSetStringFormat)
  * 
  */
 
+
+
 /**
+ * ABOUT TEST STEPS
  * login
  * select product named - Zara Coat 3
  * Assert if the required product has been selected and present in the cart
@@ -115,5 +119,29 @@ expect(addressSummaryDeatils.deliveryCountry.includes("India")).toBeTruthy();
  const productNameFromSummary = await orderSummaryPage.getProductName();
 expect(productNameFromSummary.trim()).toBe(placeOrderDataSet.productName);
 
+
+});
+
+         /**
+           * FIXTURE
+           * applicable only for test with one data set
+           * cant use it if test needs different set of test data
+           */
+
+customTest.only('USAGE OF FIXTURE EXAMPLE',async ({page,testDataForOrder})=>{
+    const pageObjectManager = new PageObjectManager(page);
+    const loginPage = pageObjectManager.getLoginPageObj();
+    const dashboardPage = pageObjectManager.getdashboardPageObj();
+    const mycartPage = pageObjectManager.getmyCartPageObj();
+    
+    await loginPage.goToLoginPage();
+    await loginPage.validLogin(testDataForOrder.email,testDataForOrder.password);
+    await dashboardPage.addProductToCart(testDataForOrder.productName);
+
+
+    //click on the cart and check if your product has been added
+    await dashboardPage.navigateToCartPage();
+    const isProductPresent = await mycartPage.isProductVisible(testDataForOrder.productName);
+    expect(isProductPresent).toBeTruthy();
 
 });
