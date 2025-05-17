@@ -8,13 +8,9 @@ class MycartPage{
     }
 
     async isProductVisible(productName){
-        //await this.productList.first().waitFor();
-        // await this.page.waitForLoadState('networkidle');
-        // return await this.page.locator(`h3:has-text("${productName}")`).isVisible();
-
-            const productLocator = this.page.locator(`h3:has-text("${productName.trim()}")`);
-            await productLocator.waitFor({ state: 'visible', timeout: 5000 }); // wait up to 5 seconds
-            return await productLocator.isVisible();
+        const productLocator = this.page.locator(`h3:has-text("${productName.trim()}")`);
+    await productLocator.waitFor({ state: 'visible', timeout: 5000 });
+    return await productLocator.isVisible();
 
     }
 

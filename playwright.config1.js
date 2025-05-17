@@ -21,14 +21,30 @@ import { defineConfig, devices, expect } from '@playwright/test';
           timeout:5000
       },
 
-    reporter: 'html',
-    use:{
-      browserName:'webkit', //safari
-      headless:false,
-      screenshot:'on',
-      //trace:'on' // will generate trace.zip for each test case
-      trace:'retain-on-failure' //will generate trace.zip only for failed test cases
-    }
+      projects:[
+          {
+            name:'chrome execution',
+            use:{
+                  browserName:'chromium',//
+                  headless:false,
+                  screenshot:'on',
+                  trace:'retain-on-failure' //will generate trace.zip only for failed test cases
+               }
+          },
+
+            {
+            name:'safari execution',
+            use:{
+                  browserName:'webkit',//
+                  headless:true,
+                  screenshot:'off',
+                  trace:'retain-on-failure' //will generate trace.zip only for failed test cases
+               }
+          }
+
+      ],
+
+    reporter: 'html'
 
   
   });
