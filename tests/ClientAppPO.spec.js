@@ -128,7 +128,7 @@ expect(productNameFromSummary.trim()).toBe(placeOrderDataSet.productName);
            * cant use it if test needs different set of test data
            */
 
-customTest.only('USAGE OF FIXTURE EXAMPLE',async ({page,testDataForOrder})=>{
+customTest('USAGE OF FIXTURE EXAMPLE',async ({page,testDataForOrder})=>{
     const pageObjectManager = new PageObjectManager(page);
     const loginPage = pageObjectManager.getLoginPageObj();
     const dashboardPage = pageObjectManager.getdashboardPageObj();
@@ -137,6 +137,7 @@ customTest.only('USAGE OF FIXTURE EXAMPLE',async ({page,testDataForOrder})=>{
     await loginPage.goToLoginPage();
     await loginPage.validLogin(testDataForOrder.email,testDataForOrder.password);
     await dashboardPage.addProductToCart(testDataForOrder.productName);
+    await expect(page.locator('text=Product Added To Cart')).toBeVisible();
 
 
     //click on the cart and check if your product has been added
