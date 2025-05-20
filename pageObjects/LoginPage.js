@@ -15,6 +15,10 @@ class LoginPage{
         await this.username.fill(username);
         await this.password.fill(password);
         await this.logInButton.click();
+       
+         await this.page.locator('div:has-text("Login Successfully")')
+  .waitFor({ state: 'visible', timeout: 5000 })
+  .catch(() => {});
         await this.page.waitForLoadState('networkidle');
         // const nav = page.waitForNavigation({ waitUntil: 'load' });
         // await this.logInButton.click();

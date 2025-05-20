@@ -62,10 +62,12 @@ import { defineConfig, devices, expect } from '@playwright/test';
             name:'safari',
             use:{
                   browserName:'webkit',//
-                  headless:true,
-                  screenshot:'off',
+                  headless:false,
+                  screenshot:'only-on-failure',
                   trace:'retain-on-failure', //will generate trace.zip only for failed test cases
                   //ignoreHTTPSErrors:true
+                  video: 'retain-on-failure',
+                  viewport:{width:500,height:700}
                }
           }
 
