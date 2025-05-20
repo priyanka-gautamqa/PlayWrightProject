@@ -1,5 +1,6 @@
 const{test,expect}= require('@playwright/test')
 
+test.describe.configure({mode:'parallel'})
 test("POPUP VALIDATIONS",async({page})=>{
 
     await page.goto("https://rahulshettyacademy.com/AutomationPractice/");
@@ -102,7 +103,7 @@ test("SCREENSHOT VALIDATIONS",async({page})=>{
  * first time it will fail as it will store the image and then next time it will have some image to cmpare
  */
 
-test.only("VISUALS TESTINGs",async({page})=>{
+test("VISUALS TESTINGs",async({page})=>{
   await page.goto("https://google.com/");
   expect(await page.screenshot()).toMatchSnapshot('LandingPageFlight.png');
  

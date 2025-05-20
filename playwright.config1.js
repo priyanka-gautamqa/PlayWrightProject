@@ -20,6 +20,9 @@ import { defineConfig, devices, expect } from '@playwright/test';
       expect:{
           timeout:5000
       },
+      workers:3, //how many workers should start teh execution , 1 means only one worker will start executing and hence no parallel execution
+      //will collect all failed tests and run them x times as given by you under retries:
+      retries:1,
 
       /**
        *our current website is not  mobile friendly hence test might fail in iphone11 config - browser will open with that screen configurations
@@ -67,7 +70,7 @@ import { defineConfig, devices, expect } from '@playwright/test';
                   trace:'retain-on-failure', //will generate trace.zip only for failed test cases
                   //ignoreHTTPSErrors:true
                   video: 'retain-on-failure',
-                  viewport:{width:500,height:700}
+                 // viewport:{width:500,height:700}
                }
           }
 
