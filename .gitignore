@@ -5,3 +5,4 @@ playwright-report/
 .vscode/
 allure-report/
 allure-results/
+state.json
