@@ -1,5 +1,5 @@
 const {test,expect,request} = require('@playwright/test')
-const {ApiUtils} = require('./utils/ApiUtils')
+const {ApiUtils} = require('../utils/ApiUtils')
 
 /**
  *TEST CASE 
@@ -19,7 +19,7 @@ const {ApiUtils} = require('./utils/ApiUtils')
  */
 const loginPayLoad = {
     userEmail: "priyanka.gautam1905@gmail.com",
-    userPassword: "$$$$$$$$$$"
+    userPassword: "$$$$$$$$"
 }
 const createOrderPayload = 
 {
@@ -49,7 +49,7 @@ test.beforeEach(()=>{
 
 });
 
-test.only('Intercepting netwrok call - mocking data to verify the message on orders page when no order is available ',async ({page})=>{
+test('@SmokeTestCase Intercepting netwrok call - mocking data to verify the message on orders page when no order is available ',async ({page})=>{
   
      page.addInitScript(value=>{
         window.localStorage.setItem('token',value);

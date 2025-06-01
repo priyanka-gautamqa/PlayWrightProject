@@ -55,7 +55,7 @@ const placeOrderDataSet = JSON.parse(placeOrderDataSetStringFormat)
  * Search for your order using order id
  * 
  */
-test('end to end flow for e commerce web site',async ({page})=>{
+test('@UI end to end flow for e commerce web site',async ({page})=>{
     const pageObjectManager = new PageObjectManager(page);
     const loginPage = pageObjectManager.getLoginPageObj();
     const dashboardPage = pageObjectManager.getdashboardPageObj();
@@ -71,7 +71,7 @@ test('end to end flow for e commerce web site',async ({page})=>{
 
 
     //click on the cart and check if your product has been added
-    await dashboardPage.navigateToCartPage();
+    await dashboardPage.navigateToCartPage(placeOrderDataSet.productName);
     const isProductPresent = await mycartPage.isProductVisible(placeOrderDataSet.productName);
     expect(isProductPresent).toBeTruthy();
 

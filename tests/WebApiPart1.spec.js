@@ -45,7 +45,7 @@ test.beforeEach(()=>{
 
 });
 
-test.only('end to end flow for e commerce web site - API PLACING ORDER ',async ({page})=>{
+test('@API end to end flow for e commerce web site - API PLACING ORDER ',async ({page})=>{
     const productName = 'ZARA COAT 3';
     const products = page.locator(".card-body");
     //INJECTING THE TOKEN IN THE WEB PAGE - use javascript to insert the token in Application Local Storage and playwright can execute any javascript expression

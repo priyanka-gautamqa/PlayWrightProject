@@ -21,7 +21,7 @@ class DashboardPage{
                     break;
                 }
             }
-             await this.page.locator('div:has-text("Product Added To Cart")')
+             await this.page.locator('div[class*="toast-success"]:has-text("Product Added To Cart")')
   .waitFor({ state: 'visible', timeout: 5000 })
   .catch(() => {});
     }
@@ -30,6 +30,7 @@ class DashboardPage{
         // const nav = this.page.waitForNavigation({ waitUntil: 'networkidle' });
         // await this.addTocartLink.click();
         // await nav;
+        console.log("PRODUCT NAME  EXISTIS: ",productName)
         await Promise.all([
         this.page.locator(`h3:has-text("${productName}")`).waitFor({ state: 'visible', timeout: 5000 }),
         this.addTocartLink.click()

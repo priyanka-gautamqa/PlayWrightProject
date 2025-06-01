@@ -1,7 +1,7 @@
 const{test,expect}= require('@playwright/test')
 
 test.describe.configure({mode:'parallel'})
-test("POPUP VALIDATIONS",async({page})=>{
+test("@UI POPUP VALIDATIONS",async({page})=>{
 
     await page.goto("https://rahulshettyacademy.com/AutomationPractice/");
 
@@ -82,7 +82,7 @@ page.on('dialog', dialog => {
 
 });
 
-test("SCREENSHOT VALIDATIONS",async({page})=>{
+test("@UI SCREENSHOT VALIDATIONS",async({page})=>{
   await page.goto("https://rahulshettyacademy.com/AutomationPractice/");
   await page.locator("#hide-textbox").click(); //hide it
   //take the screenshot

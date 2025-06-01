@@ -67,7 +67,7 @@ newBrowser.close()
 
 });
 
-test("UI Controls",async({page})=>{
+test("@UI UI Controls",async({page})=>{
     await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
     const userName = page.locator('#username');
 const pwd = page.locator("input[name='password']");
@@ -131,7 +131,7 @@ await expect(locator).toHaveAttribute('type', 'text');
 
  * 
  */
-test('New page handling', async ({browser})=>{
+test('@UI New page handling', async ({browser})=>{
    
     const context = await browser.newContext();
     const page = await context.newPage();
@@ -156,7 +156,7 @@ test('New page handling', async ({browser})=>{
 
 });
 
-test('Page playwright test',async ({page})=>
+test('@UI Page playwright test',async ({page})=>
     {
 await page.goto("https://www.google.com/")
 

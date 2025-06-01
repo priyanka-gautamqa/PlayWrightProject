@@ -11,7 +11,7 @@ const {test,expect} = require('@playwright/test')
  * Search for your order using order id
  * 
  */
-test.only('end to end flow for e commerce web site - OTHER WAY ',async ({page})=>{
+test.skip('end to end flow for e commerce web site - OTHER WAY ',async ({page})=>{
 
     const productName = 'ZARA COAT 3';
     const email='priyanka.gautam1905@gmail.com';

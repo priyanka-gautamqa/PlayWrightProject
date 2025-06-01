@@ -23,7 +23,7 @@ test.beforeAll(async({browser})=>{
 
 });
 
-test('Test1 e commerce web site - with storage settings ',async ({})=>{
+test('@API Test1 e commerce web site - with storage settings ',async ({})=>{
 
     const page = await webContext.newPage();
     await page.goto("https://rahulshettyacademy.com/client");
