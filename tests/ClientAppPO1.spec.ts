@@ -1,9 +1,9 @@
-const {test,expect} = require('@playwright/test')
-const {PageObjectManager} = require('../pageObjects/PageObjectManager')
-const {customTest} = require('../utils/test-base')
+import {test,expect} from '@playwright/test';
+import { PageObjectManager } from '../pageObjects_ts/PageObjectManager';
+import {customTest} from '../utils_ts/test-base';
 
 //json to string to js object : to avoid failure during parsing due to encoding standards
-const placeOrderDataSetJsonObj = require('../utils/PlaceOrder.json') 
+import placeOrderDataSetJsonObj from '../utils_ts/PlaceOrder.json';
 const placeOrderDataSetStringFormat = JSON.stringify(placeOrderDataSetJsonObj)
 const placeOrderDataSet = JSON.parse(placeOrderDataSetStringFormat)
 
@@ -66,6 +66,7 @@ test('@UI end to end flow for e commerce web site',async ({page})=>{
     const orderSummaryPage = pageObjectManager.getorderSummaryPageObj();
 
     await loginPage.goToLoginPage();
+    console.log("placeOrderDataSet.password : placeOrderDataSet.password",placeOrderDataSet.password);
     await loginPage.validLogin(placeOrderDataSet.email,placeOrderDataSet.password);
     await dashboardPage.addProductToCart(placeOrderDataSet.productName);
 
@@ -97,7 +98,7 @@ test('@UI end to end flow for e commerce web site',async ({page})=>{
 
    //ThankyouPage assertion
    await expect(thankyouPage.thankyouText).toHaveText(" Thankyou for the order. ");
-   const orderId = await thankyouPage.getOrderId();
+   const orderId:any = await thankyouPage.getOrderId();
 
    //Go to prders page and verify your order
    await thankyouPage.navigateToOrderHistoryPage();
@@ -109,14 +110,14 @@ test('@UI end to end flow for e commerce web site',async ({page})=>{
  const orderIdDetails = await orderSummaryPage.getOrderIdDetails();
  expect(orderId.includes(orderIdDetails)).toBeTruthy();
 
- const addressSummaryDeatils = await orderSummaryPage.getAddressSummary();
+ const addressSummaryDeatils:any = await orderSummaryPage.getAddressSummary();
 
  expect(addressSummaryDeatils.billingEmail.includes(placeOrderDataSet.email)).toBeTruthy();
  expect(addressSummaryDeatils.deliveryEmail.includes(placeOrderDataSet.email)).toBeTruthy();
    expect(addressSummaryDeatils.billingCountry.includes("India")).toBeTruthy();
 expect(addressSummaryDeatils.deliveryCountry.includes("India")).toBeTruthy();
 
- const productNameFromSummary = await orderSummaryPage.getProductName();
+ const productNameFromSummary:any = await orderSummaryPage.getProductName();
 expect(productNameFromSummary.trim()).toBe(placeOrderDataSet.productName);
 
 

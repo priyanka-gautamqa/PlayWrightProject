@@ -31,7 +31,7 @@ test("@UI POPUP VALIDATIONS",async({page})=>{
     //other way
     await expect(page.locator("#displayed-text")).toBeVisible(); //not hidden
     await page.locator("#hide-textbox").click(); //hide it
-    await expect(page.locator("#displayed-text")).toBeHidden(); //should not be hidden
+    await expect(page.locator("#displayed-text")).toBeHidden(); //should  be hidden
     
 /**
  * Java popup or dialog in playwright

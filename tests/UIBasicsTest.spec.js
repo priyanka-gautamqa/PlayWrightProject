@@ -83,9 +83,12 @@ await dropdown.selectOption("consult");
 await page.locator(".radiotextsty").nth(1).click();
 await page.locator("#okayBtn").click();
 //await page.pause();
+await expect(page.locator("#myModal")).toBeHidden();
+
 await expect(page.locator(".radiotextsty").nth(1)).toBeChecked();
 console.log("Readio button selected : ",await page.locator(".radiotextsty").nth(1).isChecked());
  
+
 //checkmarm the checkbox and assert if it is checked
 await page.locator("#terms").click();
 await expect(page.locator("#terms")).toBeChecked();
